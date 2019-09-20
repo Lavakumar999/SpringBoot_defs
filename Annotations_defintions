@@ -1,0 +1,56 @@
+1. **@RestController**
+    This annotation is applied to a class to mark it as a request handler.
+    Spring RestController annotation is used to create RESTful web services using Spring MVC.
+    Spring RestController takes care of mapping request data to the defined request handler method. 
+    Once response body is generated from the handler method, it converts it to JSON or XML response.
+2. **@RequestMapping**
+    Is used to map web requests onto specific handler classes and/or handler methods.
+    @RequestMapping("/home")
+    For multiple Url's
+    @RequestMapping(value={"/method1","/method1/second"})
+    With Http Method
+    @RequestMapping(value="/method2", method=RequestMethod.POST)
+    With Headers
+    @RequestMapping(value="/method5", headers={"name=pankaj", "id=1"})
+    With Produces and Consumes:
+    We can use header Content-Type and Accept to find out request contents and what is the mime message it wants in response.
+    @RequestMapping provides produces and consumes variables where we can specify the request content-type for which method will be invoked
+    and the response content type. 
+    For example:
+    @RequestMapping(value="/method", produces={"application/json","application/xml"}, consumes="text/html")
+    @ResponseBody
+    public String method(){
+      return "Spring";
+    }
+    @RequestMapping with @PathVariable
+    RequestMapping annotation can be used to handle dynamic URIs where one or more of the URI value works as a parameter.
+    We can even specify Regular Expression for URI dynamic parameter to accept only specific type of input. 
+    It works with @PathVariable annotation through which we can map the URI variable to one of the method arguments. 
+    For example:
+    @RequestMapping(value="/method/{id}")
+    @ResponseBody
+    public String method7(@PathVariable("id") int id){
+      return "method with id="+id;
+    }
+    @RequestMapping(value="/method/{id:[\\d]+}/{name}")
+    @ResponseBody
+    public String method(@PathVariable("id") long id, @PathVariable("name") String name){
+      return "method with id= "+id+" and name="+name;
+    }
+    @RequestMapping with @RequestParam for URL parameters:
+    Sometimes we get parameters in the request URL, mostly in GET requests. 
+    We can use @RequestMapping with @RequestParam annotation to retrieve the URL parameter and map it to the method argument.
+    For example:
+    @RequestMapping(value="/method")
+    @ResponseBody
+    public String method(@RequestParam("id") int id){
+      return "method with id= "+id;
+    }
+    @RequestMapping fallback method: We can create a fallback method for the controller class to make sure we are catching all the client
+    requests even though there are no matching handler methods. 
+    It is useful in sending custom 404 response pages to users when there are no handler methods for the request.
+    @RequestMapping("*")
+    @ResponseBody
+    public String fallbackMethod(){
+      return "fallback method";
+    }
